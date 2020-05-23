@@ -1,0 +1,6 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    client-id: meetups-event-producer-1
+event-data:
+  location: /home/dstoll/Projects/Spark/event-processing/kafka-producer/data/events.json
