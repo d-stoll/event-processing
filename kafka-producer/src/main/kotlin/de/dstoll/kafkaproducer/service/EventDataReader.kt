@@ -1,15 +1,15 @@
 package de.dstoll.kafkaproducer.service
 
-import de.dstoll.kafkaproducer.properties.EventDataProperties
+import de.dstoll.kafkaproducer.configuration.properties.EventDataProperties
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
+import org.springframework.util.ResourceUtils
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
 import java.lang.RuntimeException
-import java.nio.file.Files
+import java.util.zip.ZipFile
 import kotlin.system.exitProcess
 
 @Service
@@ -18,7 +18,7 @@ class EventDataReader(
         private val applicationContext: ApplicationContext
 ) {
 
-    private val reader: BufferedReader = BufferedReader(FileReader(eventDataProperties.location))
+    private val reader: BufferedReader = ResourceUtils.getFile(eventDataProperties.location).bufferedReader()
 
     fun readData(): String {
         return try {

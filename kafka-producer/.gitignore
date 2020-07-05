@@ -30,3 +30,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Unzipped event file ###
+/src/main/resources/data/events.json
