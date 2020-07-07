@@ -1,9 +1,73 @@
 {
   "paragraphs": [
     {
-      "text": "%spark\n\nimport org.apache.spark.sql.streaming.Trigger\n\nval meetupStream \u003d spark\n  .readStream\n  .format(\"kafka\")\n  .option(\"kafka.bootstrap.servers\", \"kafka:9092\")\n  .option(\"subscribe\", \"meetups\")\n  .load\n  .writeStream\n  .queryName(\"meetups\")\n  .format(\"memory\")\n  .outputMode(\"append\")\n  .trigger(Trigger.ProcessingTime(\"10 seconds\"))\n  .start",
+      "text": "%spark\nspark.streams.active.foreach(_.stop)",
       "user": "anonymous",
-      "dateUpdated": "2020-07-05 12:05:11.909",
+      "dateUpdated": "2020-07-07 14:42:09.171",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594130522993_2145606106",
+      "id": "paragraph_1594130522993_2145606106",
+      "dateCreated": "2020-07-07 14:02:02.993",
+      "dateStarted": "2020-07-07 14:42:09.180",
+      "dateFinished": "2020-07-07 14:42:09.745",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\nval example \u003d \"\"\"\n{\n    \"utc_offset\":3600000,\n    \"venue\":{\n        \"country\":\"de\",\n        \"city\":\"Munchen\",\n        \"address_1\":\"Tal 8\",\n        \"name\":\"Tegernseer Tal - Brauhaus\",\n        \"lon\":11.578209,\n        \"lat\":48.13599\n        },\n    \"rsvp_limit\":0,\n    \"venue_visibility\":\"public\",\n    \"visibility\":\"public\",\n    \"maybe_rsvp_count\":0,\n    \"description\":\"\u003cp\u003eHi everyone,\u003c\\/p\u003e\\n\u003cp\u003eLets get .....snip....\",\n    \"mtime\":1479116040446,\n    \"event_url\":\"https:\\/\\/www.meetup.com\\/The-Munich-iOS-Developers-Meetup\\/events\\/235150101\\/\",\n    \"yes_rsvp_count\":21,\n    \"payment_required\":\"0\",\n    \"name\":\"Social drinks meetup\",\n    \"id\":\"235150101\",\n    \"time\":1479232800000,\n    \"group\":{\n        \"join_mode\":\"open\",\n        \"country\":\"de\",\n        \"city\":\"Munchen\",\n        \"name\":\"The Munich iOS Developers Meetup\",\n        \"group_lon\":11.58,\n        \"id\":10979402,\n        \"urlname\":\"The-Munich-iOS-Developers-Meetup\",\n        \"category\":{\n            \"name\":\"tech\",\n            \"id\":34,\n            \"shortname\":\"tech\"\n            },\n        \"group_photo\":{\n            \"highres_link\":\"http:\\/\\/photos1.meetupstatic.com\\/photos\\/event\\/8\\/0\\/0\\/a\\/highres_438692778.jpeg\",\n            \"photo_link\":\"http:\\/\\/photos1.meetupstatic.com\\/photos\\/event\\/8\\/0\\/0\\/a\\/600_438692778.jpeg\",\n            \"photo_id\":438692778,\n            \"thumb_link\":\"http:\\/\\/photos1.meetupstatic.com\\/photos\\/event\\/8\\/0\\/0\\/a\\/thumb_438692778.jpeg\"\n            },\n        \"group_lat\":48.14\n        },\n    \"status\":\"upcoming\"\n}\n\"\"\"\n\nval schema \u003d spark.read.json(Seq(example).toDS).schema\n\nschema.printTreeString()",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:03:32.485",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594129328868_1306100102",
+      "id": "paragraph_1594129328868_1306100102",
+      "dateCreated": "2020-07-07 13:42:08.868",
+      "dateStarted": "2020-07-07 14:03:32.491",
+      "dateFinished": "2020-07-07 14:03:32.956",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval meetupDF \u003d spark\n    .readStream\n    .format(\"kafka\")\n    .option(\"kafka.bootstrap.servers\", \"kafka:9092\")\n    .option(\"subscribe\", \"meetups\")\n    .load()\n    .select($\"value\" cast \"string\")\n    .select(from_json($\"value\", schema) as \"meetup\")\n    .select($\"meetup.*\")        ",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:03:47.026",
       "config": {
         "editorSetting": {
           "language": "scala",
@@ -20,169 +84,20 @@
       "settings": {
         "params": {},
         "forms": {}
-      },
-      "results": {
-        "code": "SUCCESS",
-        "msg": [
-          {
-            "type": "TEXT",
-            "data": "import org.apache.spark.sql.streaming.Trigger\n\u001b[1m\u001b[34mmeetupStream\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.streaming.StreamingQuery\u001b[0m \u003d org.apache.spark.sql.execution.streaming.StreamingQueryWrapper@44e4e00c\n"
-          }
-        ]
       },
       "apps": [],
       "progressUpdateIntervalMs": 500,
       "jobName": "paragraph_1590056711943_-584250080",
       "id": "paragraph_1590056711943_-584250080",
       "dateCreated": "2020-05-21 12:25:11.943",
-      "dateStarted": "2020-07-05 12:05:11.926",
-      "dateFinished": "2020-07-05 12:05:13.564",
+      "dateStarted": "2020-07-07 14:03:47.028",
+      "dateFinished": "2020-07-07 14:03:47.300",
       "status": "FINISHED"
     },
     {
-      "text": "%spark.sql\nSELECT * FROM meetups;\n",
+      "text": "%spark\n\nmeetupDF.writeStream\n    .queryName(\"meetups\")\n    .format(\"memory\")\n    .start()",
       "user": "anonymous",
-      "dateUpdated": "2020-07-05 12:11:01.567",
-      "config": {
-        "editorSetting": {
-          "language": "sql",
-          "editOnDblClick": false,
-          "completionKey": "TAB",
-          "completionSupport": true
-        },
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/sql",
-        "fontSize": 9.0,
-        "results": {
-          "0": {
-            "graph": {
-              "mode": "table",
-              "height": 300.0,
-              "optionOpen": false,
-              "setting": {
-                "table": {
-                  "tableGridState": {},
-                  "tableColumnTypeState": {
-                    "names": {
-                      "key": "string",
-                      "value": "string",
-                      "topic": "string",
-                      "partition": "string",
-                      "offset": "string",
-                      "timestamp": "string",
-                      "timestampType": "string"
-                    },
-                    "updated": false
-                  },
-                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
-                  "tableOptionValue": {
-                    "useFilter": false,
-                    "showPagination": false,
-                    "showAggregationFooter": false
-                  },
-                  "updated": false,
-                  "initialized": false
-                }
-              },
-              "commonSetting": {}
-            }
-          }
-        },
-        "enabled": true
-      },
-      "settings": {
-        "params": {
-          "bdtMeta": {
-            "inlay": {
-              "state": {
-                "currentPage": "Table",
-                "table": {
-                  "columnWidths": {
-                    "value": 344.0
-                  }
-                },
-                "chart": {
-                  "series": [
-                    {
-                      "type": "Line",
-                      "x": {
-                        "column": "partition",
-                        "index": 3.0
-                      },
-                      "y": {
-                        "column": "offset",
-                        "index": 4.0
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "forms": {}
-      },
-      "results": {
-        "code": "SUCCESS",
-        "msg": [
-          {
-            "type": "TABLE",
-            "data": "key\tvalue\ttopic\tpartition\toffset\ttimestamp\ttimestampType\nnull\t[B@458d2d99\tmeetups\t0\t10\t2020-07-05 12:07:14.038\t0\nnull\t[B@2818a8e2\tmeetups\t0\t11\t2020-07-05 12:07:15.045\t0\nnull\t[B@6ede5432\tmeetups\t0\t12\t2020-07-05 12:07:16.052\t0\nnull\t[B@16630dcc\tmeetups\t0\t13\t2020-07-05 12:07:17.06\t0\nnull\t[B@3a2e0b7c\tmeetups\t0\t14\t2020-07-05 12:07:18.066\t0\nnull\t[B@571cfb63\tmeetups\t0\t15\t2020-07-05 12:07:19.075\t0\nnull\t[B@4b7f5a76\tmeetups\t0\t16\t2020-07-05 12:07:20.079\t0\nnull\t[B@457c23b8\tmeetups\t0\t17\t2020-07-05 12:07:21.082\t0\nnull\t[B@fc3a580\tmeetups\t0\t18\t2020-07-05 12:07:22.095\t0\nnull\t[B@3f3480f8\tmeetups\t0\t19\t2020-07-05 12:07:23.128\t0\n"
-          }
-        ]
-      },
-      "apps": [],
-      "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1593949087701_395906491",
-      "id": "paragraph_1593949087701_395906491",
-      "dateCreated": "2020-07-05 11:38:07.701",
-      "dateStarted": "2020-07-05 12:11:01.571",
-      "dateFinished": "2020-07-05 12:11:01.627",
-      "status": "FINISHED"
-    },
-    {
-      "text": "%spark\n\nspark.streams.active.length",
-      "user": "anonymous",
-      "dateUpdated": "2020-07-05 12:11:21.366",
-      "config": {
-        "editorSetting": {
-          "language": "scala",
-          "editOnDblClick": false,
-          "completionKey": "TAB",
-          "completionSupport": true
-        },
-        "colWidth": 12.0,
-        "editorMode": "ace/mode/scala",
-        "fontSize": 9.0,
-        "results": {},
-        "enabled": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "results": {
-        "code": "SUCCESS",
-        "msg": [
-          {
-            "type": "TEXT",
-            "data": "\u001b[1m\u001b[34mres6\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m \u003d 0\n"
-          }
-        ]
-      },
-      "apps": [],
-      "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1590227331289_-1289888114",
-      "id": "paragraph_1590227331289_-1289888114",
-      "dateCreated": "2020-05-23 11:48:51.289",
-      "dateStarted": "2020-07-05 12:11:14.223",
-      "dateFinished": "2020-07-05 12:11:14.699",
-      "status": "FINISHED"
-    },
-    {
-      "text": "\nimport org.apache.spark.sql.streaming.Trigger\n\nspark\n  .readStream\n  .format(\"socket\")\n  .option(\"host\", \"localhost\")\n  .option(\"port\", \"9999\")\n  .load\n  .writeStream\n  .format(\"console\")\n  .trigger(Trigger.ProcessingTime(4000))\n  .option(\"truncate\", false)\n  .start\n  .awaitTermination\n",
-      "user": "anonymous",
-      "dateUpdated": "2020-05-21 17:47:53.740",
+      "dateUpdated": "2020-07-07 14:32:52.997",
       "config": {
         "editorSetting": {
           "language": "scala",
@@ -205,17 +120,94 @@
       "jobName": "paragraph_1590057266402_210714976",
       "id": "paragraph_1590057266402_210714976",
       "dateCreated": "2020-05-21 12:34:26.402",
-      "dateStarted": "2020-05-21 17:45:42.903",
-      "dateFinished": "2020-05-21 17:36:08.753",
-      "status": "ABORT"
+      "dateStarted": "2020-07-07 14:03:50.009",
+      "dateFinished": "2020-07-07 14:03:50.228",
+      "status": "FINISHED"
     },
     {
-      "text": "",
+      "text": "%spark.sql\n\nSELECT count(*) FROM meetups;\n",
       "user": "anonymous",
-      "dateUpdated": "2020-07-05 11:50:53.229",
-      "config": {},
+      "dateUpdated": "2020-07-07 14:43:17.771",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
       "settings": {
         "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132970210_2073161007",
+      "id": "paragraph_1594132970210_2073161007",
+      "dateCreated": "2020-07-07 14:42:50.210",
+      "status": "READY"
+    },
+    {
+      "text": "%spark.sql\n\nSELECT id, name, venue.country, venue.city, status FROM meetups;\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:44:05.333",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {
+          "bdtMeta": {
+            "inlay": {
+              "size": {
+                "height": 163.0
+              },
+              "state": {}
+            }
+          }
+        },
         "forms": {}
       },
       "apps": [],
@@ -223,6 +215,215 @@
       "jobName": "paragraph_1590073295125_-462220229",
       "id": "paragraph_1590073295125_-462220229",
       "dateCreated": "2020-05-21 17:01:35.125",
+      "dateStarted": "2020-07-07 14:29:00.196",
+      "dateFinished": "2020-07-07 14:29:00.317",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval germanMeetupsDF \u003d meetupDF.where(lower($\"venue.country\") \u003d\u003d\u003d \"de\")\n    \ngermanMeetupsDF.writeStream\n    .queryName(\"germanMeetups\")\n    .format(\"memory\")\n    .start()",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:40:00.840",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132140194_-1282198293",
+      "id": "paragraph_1594132140194_-1282198293",
+      "dateCreated": "2020-07-07 14:29:00.194",
+      "dateStarted": "2020-07-07 14:37:32.790",
+      "dateFinished": "2020-07-07 14:37:33.282",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark.sql\n\nSELECT id, name, venue.country, venue.city, status FROM germanMeetups",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:44:22.531",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "city": "string",
+                      "country": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132658490_1334067926",
+      "id": "paragraph_1594132658490_1334067926",
+      "dateCreated": "2020-07-07 14:37:38.491",
+      "dateStarted": "2020-07-07 14:38:55.167",
+      "dateFinished": "2020-07-07 14:38:55.297",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n\nval munichMeetupsDF \u003d germanMeetupsDF.where($\"venue.city\" \u003d\u003d\u003d \"München\")\n\nmunichMeetupsDF.writeStream\n    .queryName(\"munichMeetups\")\n    .format(\"memory\")\n    .start()\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:40:48.784",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132646420_724220798",
+      "id": "paragraph_1594132646420_724220798",
+      "dateCreated": "2020-07-07 14:37:26.420",
+      "dateStarted": "2020-07-07 14:40:48.790",
+      "dateFinished": "2020-07-07 14:40:49.404",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark.sql\n\nSELECT id, name, venue.country, venue.city, status FROM munichMeetups\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:44:49.214",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "city": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132848788_530891022",
+      "id": "paragraph_1594132848788_530891022",
+      "dateCreated": "2020-07-07 14:40:48.788",
+      "dateStarted": "2020-07-07 14:41:45.731",
+      "dateFinished": "2020-07-07 14:41:45.873",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-07-07 14:42:00.761",
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1594132871323_-487751121",
+      "id": "paragraph_1594132871323_-487751121",
+      "dateCreated": "2020-07-07 14:41:11.324",
       "status": "READY"
     }
   ],
