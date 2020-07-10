@@ -1,6 +1,9 @@
 plugins {
+    java
     scala
 }
+
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     compileOnly("org.apache.spark:spark-core_2.12:2.4.5")
