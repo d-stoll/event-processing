@@ -3,8 +3,8 @@ package de.dstoll.sparkjobs.query
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 
-class FilterMunichMeetups {
+class FilterMunichMeetups extends Query {
 
-  def filter(df: DataFrame): DataFrame = df.where(col("venue.city") isin  ("München", "Munich"))
+  override def transform(df: DataFrame): DataFrame = df.where(col("venue.city") isin ("München", "Munich"))
 
 }

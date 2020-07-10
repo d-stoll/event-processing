@@ -1,10 +1,10 @@
-package de.dstoll.sparkjobs.sink
+package de.dstoll.sparkjobs.source
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class KafkaSource {
+object KafkaSource {
 
   def readFromKafka(spark: SparkSession, topic: String, schema: StructType): DataFrame =
     spark
