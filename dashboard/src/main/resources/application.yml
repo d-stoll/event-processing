@@ -4,4 +4,4 @@ spring:
 event-data:
   location: classpath:data/events.json
 server:
-  port: 8080
+  port: 8085
