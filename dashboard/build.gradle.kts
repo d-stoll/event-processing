@@ -4,13 +4,7 @@ plugins {
 	java
 }
 
-group = "de.dstoll"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_14
-
-repositories {
-	mavenCentral()
-}
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
