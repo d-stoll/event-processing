@@ -28,9 +28,9 @@ services:
       - ./notebooks:/zeppelin/notebook
     ports:
       - "8085:8080"
-  kafka-producer:
-    image: kafka-producer:0.0.1-SNAPSHOT
-    container_name: kafka-producer
+  dashboard:
+    image: dashboard:0.0.1-SNAPSHOT
+    container_name: dashboard
     depends_on:
       - kafka
     ports:
