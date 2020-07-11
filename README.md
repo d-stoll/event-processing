@@ -11,7 +11,7 @@ produces Kafka events in the topic "meetups".
 - _ep-spark_: Spark job, which reads events from the Kafka topic "meetups" and transforms them with various queries 
 and finally writes the result back into Kafka topics.
 
-### Setup ###
+### Setup Kafka ###
 
 Each component can be started via gradle tasks:
 
@@ -31,22 +31,18 @@ Start kafka in the second one:
 ./ep-kafka/kafka.sh
 ```
 
-* In a new terminal, start the dashboard application:
+### Setup dashboard application ###
+
+In a new terminal, start the dashboard application:
 
 ```shell script
 ./gradlew :ep-dashboard:bootRun
 ```
 
-* Finally, open a new terminal and submit the Spark job:
+### Setup Spark job ###
+
+Finally, open a new terminal and submit the Spark job:
 
 ```shell script
 ./gradlew :ep-spark:run
-```
-
-### Clean up ###
-
-When you are finished, run:
-
-```shell script
-./gradlew :ep-kafka:stop-kafka
 ```
