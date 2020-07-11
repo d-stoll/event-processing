@@ -1,0 +1,8 @@
+spring:
+  kafka:
+    client-id: meetups-event-producer-1
+    bootstrap-servers: localhost:9092
+event-data:
+  location: classpath:data/events.json
+server:
+  port: 8080

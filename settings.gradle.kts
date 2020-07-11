@@ -1,2 +1,2 @@
 rootProject.name = "event-processing"
-include("dashboard", "spark-jobs")
+include("ep-dashboard", "ep-kafka", "ep-spark")
