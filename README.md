@@ -3,24 +3,40 @@
 We are using Kafka + Spark Structured Streaming for our solution.
 
 
-Project overview:
-- _kafka-producer_: Reads the given "events.json" data and produces Kafka events in the topic "meetups"
+### Project overview ###
 
-### Project setup
+- _ep-dashboard_: Visualizes the events of different Kafka topics in a webapp. Reads the given "events.json" data and 
+produces Kafka events in the topic "meetups". 
+- _ep-kafka_: Kafka distribution, which is started and stopped via gradle tasks.
+- _ep-spark_: Spark job, which reads events from the Kafka topic "meetups" and transforms them with various queries 
+and finally writes the result back into Kafka topics.
 
-1. Make sure you have docker and docker-compose installed on your system.
-2. Clone the repository and execute:
+### Setup ###
 
-```bash
-docker-compose up -d
+Each component can be started via gradle tasks:
+
+* First, start the Kafka broker (Replace ./gradlew with ./gradlew.bat on Windows):
+
+```shell script
+./gradlew :ep-kafka:start-kafka
 ```
 
-### Setup Apache Zeppelin 
+* In a new terminal, start the dashboard application:
 
-1. Go to localhost:8085 to open Zeppelin
-2. Click on "anonymous" in the top right corner
-3. Click on "Interpreter"
-4. Search for the Spark interpreter
-5. In the Spark interpreter window, click on "Edit" in the top right corner
-6. Scroll to the bottom of the page and add the artifact "org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4" in the dependencies section
+```shell script
+./gradlew :ep-dashboard:bootRun
+```
 
+* Finally, open a new terminal and submit the Spark job:
+
+```shell script
+./gradlew :ep-spark:run
+```
+
+### Clean up ###
+
+When you are finished, run:
+
+```shell script
+./gradlew :ep-kafka:stop-kafka
+```
