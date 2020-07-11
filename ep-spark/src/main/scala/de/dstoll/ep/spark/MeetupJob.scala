@@ -1,7 +1,6 @@
 package de.dstoll.ep.spark
 
 import de.dstoll.ep.spark.query.{FilterGermanMeetups, FilterMunichMeetups}
-import de.dstoll.spark.query.FilterGermanMeetups
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import de.dstoll.ep.spark.source.KafkaSource._

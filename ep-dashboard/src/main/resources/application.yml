@@ -1,7 +1,10 @@
 spring:
   kafka:
-    client-id: meetups-event-producer-1
+    client-id: meetups-event-producer
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ep
+      auto-offset-reset: latest
 event-data:
   location: classpath:data/events.json
 server:

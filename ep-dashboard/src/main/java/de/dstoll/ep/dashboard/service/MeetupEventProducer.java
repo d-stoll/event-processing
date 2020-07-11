@@ -17,14 +17,10 @@ import java.time.Instant;
 class MeetupEventProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void sendEvent(String event) {
-        log.info("Sending message: $event");
-        var timestamp = Timestamp.from(Instant.now());
+        log.info("Sending message: " + event);
         kafkaTemplate.send("meetups", event);
-        simpMessagingTemplate.convertAndSend("/topic/messages",
-                new KafkaMessage(timestamp, HtmlUtils.htmlEscape(event)));
     }
 
 }
