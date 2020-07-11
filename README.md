@@ -15,10 +15,20 @@ and finally writes the result back into Kafka topics.
 
 Each component can be started via gradle tasks:
 
-* First, start the Kafka broker (Replace ./gradlew with ./gradlew.bat on Windows):
+* First, set up Kafka (Replace ./gradlew with ./gradlew.bat on Windows):
 
 ```shell script
-./gradlew :ep-kafka:start-kafka
+./gradlew :ep-kafka:setup
+```
+
+Open 2 terminals. Start zookeeper in the first one:
+```shell script
+./ep-kafka/zookeeper.sh
+```
+
+Start kafka in the second one:
+```shell script
+./ep-kafka/kafka.sh
 ```
 
 * In a new terminal, start the dashboard application:
