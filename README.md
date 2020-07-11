@@ -13,14 +13,6 @@ and finally writes the result back into Kafka topics.
 
 ### Setup Kafka ###
 
-Each component can be started via gradle tasks:
-
-* First, set up Kafka (Replace ./gradlew with ./gradlew.bat on Windows):
-
-```shell script
-./gradlew :ep-kafka:setup
-```
-
 Open 2 terminals. Start zookeeper in the first one:
 ```shell script
 ./ep-kafka/zookeeper.sh
