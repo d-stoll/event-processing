@@ -1,6 +1,6 @@
 package de.dstoll.ep.spark
 
-import de.dstoll.ep.spark.query.{FilterGermanMeetups, FilterMunichMeetups}
+import de.dstoll.ep.spark.query.{GermanMeetups, MunichMeetups}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import de.dstoll.ep.spark.source.KafkaSource._
@@ -16,14 +16,13 @@ object MeetupJob {
       .getOrCreate()
 
     val schema = inferSchema(spark)
-    val meetupDF = readFromKafka(spark, "meetups", schema)
+    val meetupDF = readFromKafka("meetups", schema)
 
-    val queries = Map(
-      "germanMeetups" -> new FilterGermanMeetups,
-      "munichMeetups" -> new FilterMunichMeetups
-    )
+    val queries =
+      new GermanMeetups ::
+      new MunichMeetups :: Nil
 
-    queries.foreach { case (topic, query) => writeToKafka(topic, query.transform(meetupDF), col("id")) }
+    queries.foreach { query => writeToKafka(query.topic, query.transform(meetupDF), col("id")) }
 
     spark.streams.awaitAnyTermination()
   }

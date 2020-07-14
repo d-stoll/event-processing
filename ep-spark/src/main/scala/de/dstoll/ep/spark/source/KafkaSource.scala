@@ -6,8 +6,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 
 object KafkaSource {
 
-  def readFromKafka(spark: SparkSession, topic: String, schema: StructType): DataFrame =
-    spark
+  def readFromKafka(topic: String, schema: StructType): DataFrame =
+    SparkSession.getActiveSession.get
       .readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", "localhost:9092")
