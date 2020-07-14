@@ -12,6 +12,7 @@ object KafkaSource {
       .format("kafka")
       .option("kafka.bootstrap.servers", "localhost:9092")
       .option("subscribe", topic)
+      .option("startingOffsets", "latest")
       .load()
       .select(col("value") cast "string")
       .select(from_json(col("value"), schema) as "data")

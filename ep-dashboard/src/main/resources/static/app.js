@@ -1,32 +1,31 @@
-var stompClient = null;
-
 function connect() {
-    var socket = new SockJS('/websocket');
-    stompClient = Stomp.over(socket);
+    const stompClient = Stomp.over(new SockJS('/websocket'));
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/meetups', function (msg) {
-            showKafkaMessage('meetups', JSON.parse(msg.body));
-        });
-        stompClient.subscribe('/topic/germanMeetups', function (msg) {
-            showKafkaMessage('germanMeetups', JSON.parse(msg.body));
-        });
-        stompClient.subscribe('/topic/munichMeetups', function (msg) {
-            showKafkaMessage('munichMeetups', JSON.parse(msg.body));
+        ['meetups', 'germanMeetups', 'munichMeetups'].forEach((topic) => {
+            stompClient.subscribe(`/topic/${topic}`, function (msg) {
+                showMeetup(topic, JSON.parse(msg.body));
+            });
+        })
+        stompClient.subscribe('/topic/topK', function (msg) {
+            showTopKAggregation('topK', JSON.parse(msg.body));
         });
     });
 }
 
-function showKafkaMessage(topic, message) {
-    var meetup = JSON.parse(message.payload);
-    var country = ''
-    var city = ''
+function showMeetup(topic, message) {
+    let meetup = JSON.parse(message.payload);
+    let country = '';
+    let city = '';
     if (meetup.venue !== undefined) {
         country = meetup.venue.country
         city = meetup.venue.city
     }
-    $('#' + topic + 'Table').append("<tr><td>" + message.timestamp + "</td><td>"+ meetup.name +
-        ", " + country + ", " + city + "</td></tr>");
+    $('#' + topic + 'Table').append(`<tr><td>${message.timestamp}</td><td>${meetup.name}, ${country}, ${city}</td></tr>`);
+}
+
+function showTopKAggregation(topic, message) {
+    let aggr = JSON.parse(message.payload);
+    $('#' + topic + 'Table').append(`<tr><td>${message.timestamp}</td><td>${aggr.toString()}</td></tr>`);
 }
 
 $(document).ready(connect);

@@ -1,6 +1,6 @@
 package de.dstoll.ep.spark
 
-import de.dstoll.ep.spark.query.{GermanMeetups, MunichMeetups}
+import de.dstoll.ep.spark.query.{GermanMeetups, MunichMeetups, TopKMeetups}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import de.dstoll.ep.spark.source.KafkaSource._
@@ -20,9 +20,10 @@ object MeetupJob {
 
     val queries =
       new GermanMeetups ::
-      new MunichMeetups :: Nil
+      new MunichMeetups ::
+      new TopKMeetups :: Nil
 
-    queries.foreach { query => writeToKafka(query.topic, query.transform(meetupDF), col("id")) }
+    queries.foreach { query => writeToKafka(query.topic, query.transform(meetupDF), query.outputMode) }
 
     spark.streams.awaitAnyTermination()
   }
