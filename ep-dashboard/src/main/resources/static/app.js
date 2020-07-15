@@ -9,6 +9,9 @@ function connect() {
         stompClient.subscribe('/topic/topK', function (msg) {
             showTopKAggregation('topK', JSON.parse(msg.body));
         });
+        stompClient.subscribe('/topic/heatmap', function (msg) {
+            addHeatmapData(JSON.parse(msg.body));
+        });
     });
 }
 
@@ -20,12 +23,59 @@ function showMeetup(topic, message) {
         country = meetup.venue.country
         city = meetup.venue.city
     }
-    $('#' + topic + 'Table').append(`<tr><td>${message.timestamp}</td><td>${meetup.name}, ${country}, ${city}</td></tr>`);
+    $('#' + topic + 'Table').append(`<tr><td>${message.timestamp}</td><td>${meetup.name}</td><td>${country}</td>
+<td>${city}</td></tr>`);
 }
+
+let topK_index = 1
+let topK_proccesingTime = ''
 
 function showTopKAggregation(topic, message) {
-    let aggr = JSON.parse(message.payload);
-    $('#' + topic + 'Table').append(`<tr><td>${message.timestamp}</td><td>${aggr.toString()}</td></tr>`);
+    let topK_event = JSON.parse(message.payload);
+    if(topK_proccesingTime !== topK_event.processingTime) {
+        $('#' + topic + 'Table').html('')
+        topK_proccesingTime = topK_event.processingTime
+        topK_index = 1
+    }
+    $('#' + topic + 'Table').append(`<tr><td>${topK_index}</td><td>${topK_event.city}</td>
+<td>${topK_event.count}</td></tr>`);
+    topK_index++
 }
 
-$(document).ready(connect);
+let heatmapData = [];
+
+function addHeatmapData(data) {
+    var event = JSON.parse(data.payload)
+    heatmapData.push(new google.maps.LatLng(event.venue.lat, event.venue.lon))
+}
+
+function generateHeatmap() {
+    let map,
+        heatmap,
+        mapRefreshHandle;
+
+    mapRefreshHandle = setInterval(refreshMap, 5000)
+
+    function refreshMap() {
+        heatmap.setMap(null);
+        heatmap.setMap(map);
+    }
+
+    let munich = new google.maps.LatLng(48.137154, 11.576124);
+
+    map = new google.maps.Map(document.getElementById('gm-heatmap'), {
+        center: munich,
+        zoom: 5,
+        mapTypeId: 'satellite'
+    });
+
+    heatmap = new google.maps.visualization.HeatmapLayer({
+        data: heatmapData
+    });
+    heatmap.setMap(map);
+}
+
+$(document).ready(() => {
+    generateHeatmap()
+    connect()
+});

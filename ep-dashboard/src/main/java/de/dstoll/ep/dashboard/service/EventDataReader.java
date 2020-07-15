@@ -1,6 +1,7 @@
 package de.dstoll.ep.dashboard.service;
 
 import de.dstoll.ep.dashboard.configuration.properties.EventDataProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Service
+@Slf4j
 class EventDataReader {
 
     private final ApplicationContext applicationContext;
@@ -35,12 +37,12 @@ class EventDataReader {
                 return line;
             } else {
                 reader.close();
-                System.exit(SpringApplication.exit(applicationContext));
+                log.warn("No more event data available!");
+                return null;
             }
         } catch (IOException iox) {
             throw new RuntimeException("Fehler beim Einlesen der Event-Daten!");
         }
-        return null;
     }
 
 }

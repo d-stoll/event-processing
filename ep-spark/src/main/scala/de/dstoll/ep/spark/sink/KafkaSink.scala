@@ -16,7 +16,7 @@ object KafkaSink {
       .option("topic", topic)
       .option("checkpointLocation", s"/tmp/spark/streaming/checkpoints/$topic")
       .outputMode(outputMode)
-      .trigger(Trigger.ProcessingTime(1.seconds))
+      .trigger(Trigger.ProcessingTime(2.seconds))
       .start()
 
 }

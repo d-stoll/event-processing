@@ -1,6 +1,6 @@
 package de.dstoll.ep.spark
 
-import de.dstoll.ep.spark.query.{GermanMeetups, MunichMeetups, TopKMeetups}
+import de.dstoll.ep.spark.query.{GermanMeetups, Heatmap, MunichMeetups, TopK}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import de.dstoll.ep.spark.source.KafkaSource._
@@ -21,7 +21,8 @@ object MeetupJob {
     val queries =
       new GermanMeetups ::
       new MunichMeetups ::
-      new TopKMeetups :: Nil
+      new TopK ::
+      new Heatmap :: Nil
 
     queries.foreach { query => writeToKafka(query.topic, query.transform(meetupDF), query.outputMode) }
 

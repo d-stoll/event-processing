@@ -17,7 +17,7 @@ public class KafkaConfig {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @KafkaListener(topics = {"meetups", "germanMeetups", "munichMeetups", "topK"})
+    @KafkaListener(topics = {"meetups", "germanMeetups", "munichMeetups", "topK", "heatmap"})
     public void meetupSource(ConsumerRecord<?, String> record) {
         simpMessagingTemplate.convertAndSend("/topic/" + record.topic(),
                 new KafkaMessage(Timestamp.from(Instant.ofEpochMilli(record.timestamp())), record.value()));

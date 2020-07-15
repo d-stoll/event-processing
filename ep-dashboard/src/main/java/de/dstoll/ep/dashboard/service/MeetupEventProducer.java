@@ -19,8 +19,10 @@ class MeetupEventProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendEvent(String event) {
-        log.info("Sending message: " + event);
-        kafkaTemplate.send("meetups", event);
+        if(event != null) {
+            log.info("Sending message: " + event);
+            kafkaTemplate.send("meetups", event);
+        }
     }
 
 }
