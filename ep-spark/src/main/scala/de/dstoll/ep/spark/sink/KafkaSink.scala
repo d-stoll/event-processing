@@ -8,15 +8,17 @@ import scala.concurrent.duration._
 
 object KafkaSink {
 
-  def writeToKafka(topic: String, df: DataFrame, outputMode: OutputMode): StreamingQuery =
+  def writeToKafka(topic: String, df: DataFrame, outputMode: OutputMode, trigger: Trigger): StreamingQuery =
     df.select(to_json(struct(df.columns.map(column):_*)) alias "value")
       .writeStream
+      .queryName(topic)
       .format("kafka")
       .option("kafka.bootstrap.servers", "localhost:9092")
       .option("topic", topic)
+      .option("startingOffset", "latest")
       .option("checkpointLocation", s"/tmp/spark/streaming/checkpoints/$topic")
       .outputMode(outputMode)
-      .trigger(Trigger.ProcessingTime(2.seconds))
+      .trigger(trigger)
       .start()
 
 }
