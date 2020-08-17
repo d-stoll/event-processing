@@ -1,18 +1,18 @@
 package de.dstoll.ep.spark.query
 
+import de.dstoll.ep.spark.config.MunichMeetupsConfig
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.{OutputMode, Trigger}
-import scala.concurrent.duration._
 
-class MunichMeetups extends Query {
+class MunichMeetups(config: MunichMeetupsConfig) extends Query {
 
   override def topic: String = "munichMeetups"
 
   override def outputMode: OutputMode = OutputMode.Append()
 
-  override def trigger: Trigger = Trigger.ProcessingTime(2.seconds)
+  override def trigger: Trigger = Trigger.ProcessingTime(config.processingTime)
 
-  override def transform(df: DataFrame): DataFrame = df.where(col("venue.city") isin ("München", "Munich"))
-
+  override def transform(df: DataFrame): DataFrame = df
+    .where(lower(col("venue.city")) isin ("munich", "münchen"))
 }

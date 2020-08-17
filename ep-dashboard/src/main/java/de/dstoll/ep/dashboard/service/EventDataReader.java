@@ -16,11 +16,9 @@ import java.nio.file.Files;
 @Slf4j
 class EventDataReader {
 
-    private final ApplicationContext applicationContext;
     private final BufferedReader reader;
 
     EventDataReader(EventDataProperties eventDataProperties, ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
         try {
             reader = Files.newBufferedReader(ResourceUtils.getFile(eventDataProperties.getLocation()).toPath());
         } catch (FileNotFoundException fnfex) {
