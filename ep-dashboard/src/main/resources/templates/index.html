@@ -37,10 +37,10 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li th:each="table : ${tables}" class="nav-item">
                         <a class="nav-link" th:id="|${table.topic}-tab|" data-toggle="tab"
-                           th:href="'#' + '${table.topic}'" role="tab" th:aria-controls="${table.topic}"
+                           th:href="'#' + ${table.topic}" role="tab" th:aria-controls="${table.topic}"
                            aria-selected="true" th:text="${#strings.capitalize(table.topic)}"></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" id="heatmap-tab" data-toggle="tab" href="#heatmap" role="tab"
                            aria-controls="heatmap" aria-selected="false">Heatmap</a>
                     </li>
@@ -51,7 +51,7 @@
                              th:aria-labelledby="|${table.topic}-tab|"
                              th:include="table :: topicTable (${table.topic},${table.columns})"></div>
                     </th:block>
-                    <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
+                    <div class="tab-pane fade active" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
                         <div id="gm-heatmap" style="height: 800px; width: 100%"></div>
                     </div>
                 </div>

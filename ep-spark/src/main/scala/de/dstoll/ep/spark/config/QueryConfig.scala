@@ -21,7 +21,7 @@ final case class TopKConfig(processingTime: Duration, k: Int) extends QueryConfi
   override def queryInstance = new TopK(this)
 }
 
-final case class HeatmapConfig(processingTime: Duration) extends QueryConfig {
+final case class HeatmapConfig(processingTime: Duration, precision: Int) extends QueryConfig {
   override def queryInstance = new Heatmap(this)
 }
 

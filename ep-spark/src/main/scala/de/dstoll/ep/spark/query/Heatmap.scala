@@ -12,6 +12,10 @@ class Heatmap(config: HeatmapConfig) extends Query {
 
   override def trigger: Trigger = Trigger.ProcessingTime(config.processingTime)
 
-  override def transform(df: DataFrame): DataFrame = df.where(col("venue").isNotNull)
+  override def transform(df: DataFrame): DataFrame = {
+    df.where(col("venue").isNotNull)
+      .withColumn("venue.lon", round(col("venue.lon"), config.precision + 2))
+      .withColumn("venue.lat", round(col("venue.lat"), config.precision + 2))
+  }
 
 }

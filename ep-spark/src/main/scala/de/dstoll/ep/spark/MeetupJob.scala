@@ -1,7 +1,6 @@
 package de.dstoll.ep.spark
 
 import de.dstoll.ep.spark.config.{AppConfig, KafkaConfig}
-import de.dstoll.ep.spark.query.Query
 import de.dstoll.ep.spark.sink.KafkaSink
 import de.dstoll.ep.spark.source.KafkaSource
 import de.dstoll.ep.spark.util.SchemaProvider._
