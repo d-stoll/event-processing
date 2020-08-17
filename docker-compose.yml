@@ -31,12 +31,12 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_JMX_PORT: 9101
 
-  dashboard:
-    image: ep-dashboard:0.0.1-SNAPSHOT
-    hostname: dashboard
-    container_name: dashboard
-    depends_on:
-      - zookeeper
-      - broker
-    ports:
-    - "8080:8080"
+#  dashboard:
+#    image: ep-dashboard:0.0.1-SNAPSHOT
+#    hostname: dashboard
+#    container_name: dashboard
+#    depends_on:
+#      - zookeeper
+#      - broker
+#    ports:
+#    - "8080:8080"

@@ -12,6 +12,9 @@ function connect() {
         stompClient.subscribe('/topic/heatmap', function (msg) {
             addHeatmapData(JSON.parse(msg.body));
         });
+        stompClient.subscribe('/topic/topGroups', function (msg) {
+            showTopGroupsAggregation('topGroups', JSON.parse(msg.body));
+        });
     });
 }
 
@@ -37,9 +40,24 @@ function showTopKAggregation(topic, message) {
         topK_proccesingTime = topK_event.processingTime
         topK_index = 1
     }
-    $('#' + topic + 'Table').append(`<tr><td>${topK_index}</td><td>${topK_event.city}</td>
+    $(`#${topic}Table`).append(`<tr><td>${topK_index}</td><td>${topK_event.city}</td>
 <td>${topK_event.count}</td></tr>`);
     topK_index++
+}
+
+let topGroups_index = 1
+let topGroups_proccesingTime = ''
+
+function showTopGroupsAggregation(topic, message) {
+    let topGroups_event = JSON.parse(message.payload);
+    if(topGroups_proccesingTime !== topGroups_event.processingTime) {
+        $('#' + topic + 'Table').html('')
+        topGroups_proccesingTime = topGroups_event.processingTime
+        topGroups_index = 1
+    }
+    $(`#${topic}Table`).append(`<tr><td>${topGroups_index}</td><td>${topGroups_event.name}</td>
+<td>${topGroups_event.count}</td></tr>`);
+    topGroups_index++
 }
 
 let heatmapData = [];

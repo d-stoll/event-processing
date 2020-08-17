@@ -68,6 +68,10 @@
                         <a class="nav-link" id="heatmap-tab" data-toggle="tab" href="#heatmap" role="tab"
                            aria-controls="heatmap" aria-selected="false">Heatmap</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="topGroups-tab" data-toggle="tab" href="#topGroups" role="tab"
+                           aria-controls="topGroups" aria-selected="false">Top Groups</a>
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade active" id="meetups" role="tabpanel" aria-labelledby="meetups-tab">
@@ -127,6 +131,19 @@
                     </div>
                     <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="topK-tab">
                         <div id="gm-heatmap" style="height: 800px; width: 100%"></div>
+                    </div>
+                    <div class="tab-pane fade" id="topGroups" role="tabpanel" aria-labelledby="topGroups-tab">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col" style="width: 10.00%">Index</th>
+                                <th scope="col" style="width: 60.00%">Group</th>
+                                <th scope="col" style="width: 30.00%">Count</th>
+                            </tr>
+                            </thead>
+                            <tbody id="topGroupsTable">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
