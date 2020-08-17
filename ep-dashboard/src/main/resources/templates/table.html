@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+    <body>
+        <div th:fragment="topicTable (topic,columns)">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th:block th:each="column : ${columns}">
+                        <th scope="col" th:class="|w-${column.width}|" th:text="${column.name}"></th>
+                    </th:block>
+                </tr>
+                </thead>
+                <tbody th:id="|${topic}Table|"></tbody>
+            </table>
+        </div>
+    </body>
+
+</html>
