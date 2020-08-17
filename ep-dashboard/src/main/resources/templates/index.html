@@ -35,35 +35,20 @@
             <h2>Kafka messages</h2>
             <div class="col-md-12">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="meetups-tab" data-toggle="tab" href="#meetups" role="tab"
-                           aria-controls="meetups" aria-selected="true">Meetups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="germanMeetups-tab" data-toggle="tab" href="#germanMeetups" role="tab"
-                           aria-controls="germanMeetups" aria-selected="false">German meetups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="munichMeetups-tab" data-toggle="tab" href="#munichMeetups" role="tab"
-                           aria-controls="munichMeetups" aria-selected="false">Munich meetups</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="topK-tab" data-toggle="tab" href="#topK" role="tab"
-                           aria-controls="topK" aria-selected="false">TopK</a>
+                    <li th:each="table : ${tables}" class="nav-item">
+                        <a class="nav-link" th:id="|${table.topic}-tab|" data-toggle="tab"
+                           th:href="'#' + '${table.topic}'" role="tab" th:aria-controls="${table.topic}"
+                           aria-selected="true" th:text="${#strings.capitalize(table.topic)}"></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="heatmap-tab" data-toggle="tab" href="#heatmap" role="tab"
                            aria-controls="heatmap" aria-selected="false">Heatmap</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="topGroups-tab" data-toggle="tab" href="#topGroups" role="tab"
-                           aria-controls="topGroups" aria-selected="false">Top Groups</a>
-                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <th:block th:each="table : ${tables}">
                         <div class="tab-pane fade" th:id="${table.topic}" role="tabpanel"
-                             th:aria-labelledby="|${topic}-tab|"
+                             th:aria-labelledby="|${table.topic}-tab|"
                              th:include="table :: topicTable (${table.topic},${table.columns})"></div>
                     </th:block>
                     <div class="tab-pane fade" id="heatmap" role="tabpanel" aria-labelledby="heatmap-tab">
